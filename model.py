@@ -76,7 +76,7 @@ class Decoder(nn.Module):
 
     def forward(self, input, last_hidden, encoder_outputs):
         # Get the embedding of the current input word (last output word)
-        print("1",input.size(),last_hidden.size(),encoder_outputs.size())
+        # print("1",input.size(),last_hidden.size(),encoder_outputs.size())
         # size(input) = (batch,);
         # size(last_hidden) = (1, batch, hidden dim);
         # size(encoder_outputs) = (encoder input seq len, batch, hidden dim)
@@ -134,7 +134,6 @@ class Seq2Seq(nn.Module):
             # size(output) = (batch, decoder vocab_size)
             # size(hidden) = (n_layers, batch, hidden_dim)
             # size(attn_weights) = (batch, encoder_seq_len)
-
             outputs[t] = output
             is_teacher = random.random() < teacher_forcing_ratio
             top1 = output.data.max(1)[1]
