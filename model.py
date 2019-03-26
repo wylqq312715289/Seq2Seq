@@ -43,9 +43,13 @@ class Attention(nn.Module):
         self.v.data.uniform_(-stdv, stdv)
 
     def forward(self, hidden, encoder_outputs):
+        # size(hidden) = (batch, hidden dim);
+        # size(encoder_outputs) = (encoder input seq len, batch, hidden dim)
         timestep = encoder_outputs.size(0)
         h = hidden.repeat(timestep, 1, 1).transpose(0, 1)
+        # size(h) = (batch, encoder input seq len, hidden dim)
         encoder_outputs = encoder_outputs.transpose(0, 1)  # [B*T*H]
+        # size(encoder_outputs) = (batch, encoder input seq len, hidden dim)
         attn_energies = self.score(h, encoder_outputs)
         return F.softmax(attn_energies, dim=1).unsqueeze(1)
 
